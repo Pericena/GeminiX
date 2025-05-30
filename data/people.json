@@ -1,0 +1,25 @@
+{
+  "nombre": "Juan Pérez",
+  "edad": 45,
+  "sexo": "Masculino",
+  "historial": [
+    {
+      "fecha": "2025-05-20",
+      "motivo": "Dolor en el pecho",
+      "observaciones": "Se realizaron radiografías de tórax con infiltrado pulmonar.",
+      "imagenes": [
+        "../static/images/1.jpg",
+        "../static/images/2.jpg"
+      ]
+    },
+    {
+      "fecha": "2024-12-10",
+      "motivo": "Seguimiento post tratamiento de neumonía.",
+      "observaciones": "Mejoría notable, sin signos patológicos.",
+      "imagenes": [
+        "../static/images/2.jpg"
+      ]
+    }
+  ],
+  "notas": "Paciente con antecedentes de problemas respiratorios."
+}

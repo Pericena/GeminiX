@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard Paciente</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+
+        <!-- Logo -->
+        <div class="flex-shrink-0 text-blue-700 font-bold text-xl">
+          🩺 GeminiX
+        </div>
+
+        <!-- Menu desktop -->
+        <nav class="hidden md:flex space-x-6 font-medium text-gray-700">
+          <a href="/dashboard" class="hover:text-blue-700">🏠 Dashboard</a>
+          <a href="/" class="hover:text-blue-700">🩻 Radiografías</a>
+          <a href="#" class="hover:text-blue-700">⚙️ Ajustes</a>
+        </nav>
+
+        <!-- Hamburger button mobile -->
+        <div class="md:hidden">
+          <button id="menu-btn" class="focus:outline-none">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <nav id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <a href="/dashboard" class="block px-4 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-700">🏠 Dashboard</a>
+      <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-700">📜 Historial</a>
+      <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-700">🩻 Radiografías</a>
+      <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-700">📝 Notas</a>
+      <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-blue-100 hover:text-blue-700">⚙️ Ajustes</a>
+    </nav>
+  </header>
+
+  <div class="max-w-5xl mx-auto bg-white rounded-lg shadow p-8">
+
+    <h1 class="text-3xl font-bold mb-6">Historial de {{ paciente.nombre }}</h1>
+
+    <!-- Datos generales -->
+    <section class="mb-8">
+      <p><strong>Edad:</strong> {{ paciente.edad }} años</p>
+      <p><strong>Sexo:</strong> {{ paciente.sexo }}</p>
+      <p class="mt-2 text-gray-600 italic">Notas: {{ paciente.notas }}</p>
+    </section>
+
+    <!-- Historial -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4">Historial Médico</h2>
+      <div class="space-y-6 max-h-[400px] overflow-y-auto pr-4">
+        {% for consulta in paciente.historial %}
+        <article class="border-l-4 border-blue-600 bg-blue-50 p-4 rounded shadow-sm">
+          <time class="block text-sm text-gray-500 mb-2">{{ consulta.fecha }}</time>
+          <p><strong>Motivo:</strong> {{ consulta.motivo }}</p>
+          <p><strong>Observaciones:</strong> {{ consulta.observaciones }}</p>
+          <div class="mt-3 flex gap-3 overflow-x-auto">
+            {% for img in consulta.imagenes %}
+            <img src="{{ url_for('static', filename=img) }}" alt="Radiografía"
+              class="w-32 h-32 object-cover rounded cursor-pointer hover:scale-105 transition" />
+            {% endfor %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+  </div>
+
+</body>
+
+</html>

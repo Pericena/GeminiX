@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Asistente Médico</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Boxicons para íconos médicos (asegúrate de tenerlos en tu <head>) -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+</head>
+
+<!-- Estilo de botón reutilizable con Tailwind y transición -->
+<style>
+  .tag-button {
+    @apply flex items-center bg-blue-600 text-white text-sm px-4 py-2 rounded-full shadow hover:bg-blue-700 transition-all duration-200 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-300;
+  }
+</style>
+
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+
+        <!-- Logo -->
+        <div class="flex-shrink-0 text-blue-700 font-bold text-xl">
+          🩺 GeminiX
+        </div>
+
+        <!-- Menu desktop -->
+        <nav class="hidden md:flex space-x-6 font-medium text-gray-700">
+          <a href="/dashboard" class="hover:text-blue-700">🏠 Dashboard</a>
+          <a href="/" class="hover:text-blue-700">🩻 Radiografías</a>
+          <a href="#" class="hover:text-blue-700">⚙️ Ajustes</a>
+        </nav>
+
+        <!-- Hamburger button mobile -->
+        <div class="md:hidden">
+          <button id="menu-btn" class="focus:outline-none">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <nav id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <a href="/dashboard" class="hover:text-blue-700">🏠 Dashboard</a>
+      <a href="/" class="hover:text-blue-700">🩻 Radiografías</a>
+      <a href="#" class="hover:text-blue-700">⚙️ Ajustes</a>
+    </nav>
+  </header>
+
+  <div class="max-w-2xl mx-auto mt-10 p-4 bg-white rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold text-center mb-4">🩺 Asistente de Radiografías</h1>
+
+
+
+
+
+    <!-- Contenedor de mensajes -->
+    <!-- Contenedor general estilo ChatGPT -->
+    <div class="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md flex flex-col h-[90vh]">
+      <!-- Contenedor de mensajes tipo chat -->
+      <!-- Vista previa mejorada -->
+      <div id="preview-container" class="mt-4 hidden transition-opacity duration-300 ease-in-out">
+        <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">Vista previa de la imagen:</p>
+        <div class="relative max-w-xs">
+          <img id="image-preview" class="w-20 rounded-md border shadow-md ring-1 ring-gray-200 dark:ring-gray-600" />
+          <span
+            class="absolute top-2 right-2 bg-white dark:bg-gray-800 text-gray-500 text-xs px-2 py-1 rounded-full shadow">Imagen
+            cargada</span>
+        </div>
+      </div>
+
+      <div id="messages"
+        class="flex-1 overflow-y-auto p-4 space-y-4 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100">
+        <p class="text-center text-gray-500 dark:text-gray-400">No hay mensajes aún...</p>
+      </div>
+
+      <!-- Formulario de entrada -->
+      <form onsubmit="event.preventDefault(); sendMessage();" class="mt-4">
+        <div class="flex items-end gap-2">
+          <!-- Input texto -->
+          <input id="input" type="text" placeholder="Escribe tu mensaje aquí..."
+            class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 dark:placeholder:text-gray-400"
+            required />
+
+          <!-- Input imagen (ícono personalizado) -->
+          <label for="image"
+            class="flex items-center justify-center w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-500 transition">
+            <svg class="w-5 h-5 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 16l4-4a3 3 0 014 0l4 4m0 0l4-4m-4 4v6m-4-6v6" />
+            </svg>
+            <input id="image" type="file" accept="image/*" class="hidden" />
+          </label>
+
+          <!-- Botón Enviar -->
+          <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition">
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Preguntas frecuentes para niños -->
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">Preguntas rápidas</h2>
+
+      <!-- Contenedor de botones de preguntas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <button onclick="sendPreset('¿Qué muestra esta radiografía?')"
+          class="w-full flex items-center gap-2 px-4 py-3 bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100 rounded-lg shadow hover:bg-blue-200 dark:hover:bg-blue-800 transition text-base font-medium">
+          <i class="bx bx-search-alt-2 text-xl"></i> ¿Qué se ve en la imagen?
+        </button>
+
+        <button onclick="sendPreset('¿Hay alguna anomalía visible?')"
+          class="w-full flex items-center gap-2 px-4 py-3 bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100 rounded-lg shadow hover:bg-yellow-200 dark:hover:bg-yellow-800 transition text-base font-medium">
+          <i class="bx bx-error-circle text-xl"></i> ¿Está todo bien?
+        </button>
+
+        <button onclick="sendPreset('¿Es normal?')"
+          class="w-full flex items-center gap-2 px-4 py-3 bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100 rounded-lg shadow hover:bg-green-200 dark:hover:bg-green-800 transition text-base font-medium">
+          <i class="bx bx-check-circle text-xl"></i> ¿Es normal?
+        </button>
+
+        <button onclick="sendPreset('¿Qué partes del cuerpo se ven?')"
+          class="w-full flex items-center gap-2 px-4 py-3 bg-purple-100 text-purple-900 dark:bg-purple-900 dark:text-purple-100 rounded-lg shadow hover:bg-purple-200 dark:hover:bg-purple-800 transition text-base font-medium">
+          <i class="bx bx-body text-xl"></i> ¿Qué partes del cuerpo hay?
+        </button>
+
+        <button onclick="sendPreset('¿Qué cuidados debería tener?')"
+          class="w-full flex items-center gap-2 px-4 py-3 bg-red-100 text-red-900 dark:bg-red-900 dark:text-red-100 rounded-lg shadow hover:bg-red-200 dark:hover:bg-red-800 transition text-base font-medium">
+          <i class="bx bx-first-aid text-xl"></i> ¿Qué debo hacer?
+        </button>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <script>
+    // Vista previa local de la imagen seleccionada
+    document.getElementById("image").addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById("image-preview");
+      const container = document.getElementById("preview-container");
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          container.classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = "";
+        container.classList.add("hidden");
+      }
+    });
+  </script>
+
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById("input");
+      const image = document.getElementById("image").files[0];
+      const msgBox = document.getElementById("messages");
+
+      if (!input.value && !image) return;
+
+      if (input.value) {
+        msgBox.innerHTML += `<div class="text-gray-600"><strong>Tú:</strong> ${input.value}</div>`;
+      } else {
+        msgBox.innerHTML += `<div class="text-gray-600"><strong>Tú:</strong> (imagen enviada)</div>`;
+      }
+
+      const formData = new FormData();
+      formData.append("message", input.value);
+      if (image) formData.append("image", image);
+
+      input.value = "";
+      document.getElementById("image").value = null;
+
+      const res = await fetch("/ask", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      msgBox.innerHTML += `<div class="text-blue-600 dark:text-blue-300"><strong>bot:</strong> ${data.response}</div>`;
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    function sendPreset(text) {
+      const input = document.getElementById("input");
+      input.value = text;
+      sendMessage();
+    }
+  </script>
+
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+</body>
+
+</html>
