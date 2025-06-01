@@ -7,7 +7,7 @@ import json
 from flask import abort
 
 app = Flask(__name__)
-genai.configure(api_key="AI...")
+genai.configure(api_key="AIz")
 
 # Usa un modelo con visión
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")

@@ -1,7 +1,4 @@
 # GeminiX
-
-![GeminiX Logo](docs/images/logo.png)
-
 ---
 
 ## 🧠 About
@@ -9,6 +6,7 @@
 **GeminiX** es un sistema inteligente de código abierto desarrollado con **Gemini AI** para la **detección automática de anomalías en radiografías médicas**. Este proyecto combina inteligencia artificial avanzada, visión por computadora y procesamiento de imágenes para asistir a profesionales de la salud en la identificación de patologías de forma rápida, precisa y confiable.
 
 ---
+![GeminiX Logo](static/images/screencapture-127-0-0-1-5000-2025-05-30-17_18_07.png)
 
 ## ✨ Características principales
 
@@ -24,7 +22,7 @@
 
 ## 📸 Demo
 
-![Ejemplo detección](static/images/screencapture-127-0-0-1-5000-2025-05-30-17_18_07.png)
+![Ejemplo detección](static/images/screencapture-localhost-5000-dashboard-2025-06-01-03_42_47.png)
 
 *Figura: Detección de anomalías en una radiografía de tórax.*
 
@@ -37,9 +35,11 @@
 ```bash
 git clone https://github.com/Pericena/GeminiX.git
 cd GeminiX
+```
 
 ### 2. Crear y activar entorno virtual
 
+```bash
 python -m venv env
 source env/bin/activate
 
@@ -47,16 +47,17 @@ Windows:
 python -m venv env
 env\Scripts\activate.bat
 
-
 pip install --upgrade pip
 pip install numpy==1.26.4 protobuf==4.24.4
 pip install Flask google-generativeai tensorflow Pillow
 
 ```
 
-Uso
+
+#### Uso
 Configurar clave API Gemini AI
 Necesitas una clave válida de la API Gemini AI (Google Cloud).
+- https://ai.google.dev/gemini-api/docs/api-key?hl=es-419
 
 Linux/macOS:
 export GOOGLE_API_KEY="TU_API_KEY"
@@ -66,10 +67,9 @@ setx GOOGLE_API_KEY "TU_API_KEY"
 
 ### 3. Probar conexión API Gemini AI
 
-curl "https://generativelanguage.googleapis.com/v1beta/models?key=$GOOGLE_API_KEY"
+- curl "https://generativelanguage.googleapis.com/v1beta/models?key=$GOOGLE_API_KEY"
 
-Ejecutar aplicación Flask
+#### Ejecutar aplicación Flask
 python app.py
 
-Abre en tu navegador: http://localhost:5000
-
+- Abre en tu navegador: http://localhost:5000
